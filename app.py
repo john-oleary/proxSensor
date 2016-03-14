@@ -3,6 +3,7 @@ import requests
 import collections
 import pickle
 import fcntl
+import os.path, time
 from flask import jsonify
 from flask import json
 
@@ -29,20 +30,31 @@ def hello_world():
     except EOFError as e2:
         print "EOFError"
     pickle_file.close()
+    timestamp = getTimestamp()
     if errored:
         return  "error, please try again"
-    return render_template('yes_no.html', is_busy=roomOccupied(samples))
+    return render_template('yes_no.html', is_busy=roomOccupied(samples), timestamp=timestamp)
+
+def getTimestamp():
+    s = 'unknown'
+    try:
+        s = time.ctime(os.path.getctime('save.p'))
+    except OSError:
+        pass
+    return s
 
 def roomOccupied(samples):
     sumSamples = 0
     for sample in samples:
-        if sample == 1:
+        if int(sample) == 1:
             sumSamples += 1
         print sample
-    return sumSamples > len(samples)
+    print "total 1s: " + str(sumSamples)
+    print "total length: " + str(len(samples))
+    return sumSamples > (len(samples)/4)
         
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
 
 

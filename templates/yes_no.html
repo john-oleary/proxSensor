@@ -1,7 +1,8 @@
 {% block content %}
 {% if is_busy %}
-   <h3>Ping pong table is free</h3>
-{% else %}
    <h3>Ping pong table is not free</h3>
+{% else %}
+   <h3>Ping pong table is free</h3>
 {% endif %}
+<h3> last updated at {{timestamp}} </h3>
 {% endblock %}
