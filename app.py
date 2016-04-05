@@ -52,7 +52,7 @@ def roomOccupied(samples):
     print "total 1s: " + str(sumSamples)
     print "total length: " + str(len(samples))
     return sumSamples > (len(samples)/4)
-        
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
